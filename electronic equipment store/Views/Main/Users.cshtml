@@ -1,0 +1,41 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Users>
+
+<main>
+    @foreach (var user in Model)
+    {
+        <div class="payment-card">
+            <p>@user.customer_id</p>
+            <p>Логин: @user.customer_name</p>
+            <p>Еmail: @user.email</p>
+            <p>Роль: @user.role</p>
+            <p>Адрес:@user.address</p>
+        </div>
+    }
+    @using (Html.BeginForm("Users", "Main", FormMethod.Post))
+    {
+        <h1>Добавить пользователя</h1>
+        <div>
+            <label for="login">Логин:</label>
+            @Html.TextBox("login", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+
+        <div>
+            <label for="password">Пароль:</label>
+            @Html.Password("password", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            @Html.Password("email", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="role">Роль:</label>
+            @Html.DropDownList("role", new SelectList(new[] {
+        new SelectListItem { Text = "Пользователь", Value = "user" },
+        new SelectListItem { Text = "Администратор", Value = "admin" },
+        new SelectListItem { Text = "Владелец", Value = "owner" },
+        }, "Value", "Text"), "Выберите роль", new { @class = "form-control", required = "required" })
+        </div>
+
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    }
+</main>

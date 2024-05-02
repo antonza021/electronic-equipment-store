@@ -1,0 +1,40 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Products>
+
+<main>
+    <h1 style="margin-left:20px;">Наш ассортимент продуктов</h1>
+    <div class="products-container">
+        @foreach (var product in Model)
+        {
+            <div class="product-card">
+                <div class="product-details">
+                    <h2>@product.product_name</h2>
+                    <p class="product-description">@product.description</p>
+                    <p class="product-price">@product.price</p>
+                    <button class="buy-button" onclick="addToCart(@product.product_id, @product.price)">Купить</button>
+                </div>
+            </div>
+        }
+    </div>
+    <script>
+        function addToCart(productId, unitPrice) {
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/Home/AddToCart'; 
+
+            var productIdField = document.createElement('input');
+            productIdField.type = 'hidden';
+            productIdField.name = 'productID';
+            productIdField.value = productId;
+            form.appendChild(productIdField);
+
+            var unitPriceField = document.createElement('input');
+            unitPriceField.type = 'hidden';
+            unitPriceField.name = 'unitPrice';
+            unitPriceField.value = unitPrice;
+            form.appendChild(unitPriceField);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</main>

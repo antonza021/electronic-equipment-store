@@ -1,27 +1,39 @@
-var builder = WebApplication.CreateBuilder(args);
+using electronic_equipment_store.App_Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder();
+builder.Services.AddMvc();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Authentication/Enter";
+        options.LogoutPath = "/Aunthetication/Enter";
+        options.AccessDeniedPath = "/Aunthetication/AccsessDenied";
+    });
+
+
+
+builder.Services.AddAuthorization();
+
+string? connection = builder.Configuration.GetConnectionString("MyConnectionString");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
+
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{Controller=Home}/{Action=Index}");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+
+
+app.UseStaticFiles();
 
 app.Run();

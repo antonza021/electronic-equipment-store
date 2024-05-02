@@ -1,0 +1,35 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Promotions>
+<main>
+    <h1 style="margin-left:40px;">На сайте присутствуют скидки в праздники</h1>
+
+    @foreach (var prom in Model)
+    {
+        <div class="promotion-card">
+            <p>@prom.promotion_name</p>
+            <p>Начало: @prom.start_date</p>
+            <p>Конец: @prom.end_date</p>
+            <p>Процент скидки: @prom.discount_percentage %</p>
+        </div>
+    }
+    @using (Html.BeginForm("AddPromotions", "Home", FormMethod.Post))
+    {
+        <h3 style="text-align:center; margin:0;">Добавить Праздник</h3>
+        <div>
+            <label for="title">Название:</label>
+            @Html.TextBox("Title", null, new { @class = "form-control", required = "required", rows = "4" })
+        </div>
+        <div>
+            <label for="text">Дата начала:</label>
+            @Html.TextBox("dateStart", null, new { @type = "date", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="text">Дата окончания:</label>
+            @Html.TextBox("dateEnd", null, new { @type = "date", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="count">Процент скидки:</label>
+            @Html.TextBox("pecent", null, new { @class = "form-control", required = "required", type = "number" })
+        </div>
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    }
+</main>

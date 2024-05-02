@@ -1,0 +1,15 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Payments>
+
+<main>
+    <h2>Транзакции пользователей</h2>
+    @foreach (var pay in Model)
+    {
+        <div class="payment-card">
+            <p>@pay.payment_id</p>
+            <p>@pay.order_id</p>
+            <p>@pay.payment_date</p>
+            <p>@pay.payment_method</p>
+            <p>@pay.amount</p>
+        </div>
+    }
+</main>

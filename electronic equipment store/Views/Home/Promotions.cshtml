@@ -1,0 +1,14 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Promotions>
+<main>
+    <h1 style="margin-left:40px;">На сайте присутствуют скидки в праздники</h1>
+  
+        @foreach(var prom in Model)
+        {
+        <div class="promotion-card">
+            <p>@prom.promotion_name</p>
+            <p>Начало: @prom.start_date</p>
+            <p>Конец: @prom.end_date</p>
+            <p>Процент скидки: @prom.discount_percentage %</p>
+        </div>
+        }
+</main>

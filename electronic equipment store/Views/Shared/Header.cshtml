@@ -1,0 +1,44 @@
+﻿﻿@using electronic_equipment_store
+@{
+    var listMenu = new electronic_equipment_store.Models.MenuModel.ListMenu();
+    string userRole = ViewBag.UserRole;
+}
+<header>
+    <div class="divHeader">
+        <nav>
+            <ul>
+                @if (User.Identity!.IsAuthenticated == false)
+                {
+                    @foreach (var item in listMenu.GuestHeaderMenu)
+                    {
+                        <li class="headerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                }
+                else if (userRole == "user")
+                {
+                    @foreach (var item in listMenu.UserHeaderMenu)
+                    {
+                        <li class="headerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                    <p style="font-size: 10pt;">Добро пожаловать, @User.Identity.Name!</p>
+                }
+                else if (userRole == "admin")
+                {
+                    @foreach (var item in listMenu.AdminHeaderMenu)
+                    {
+                        <li class="headerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                    <p style="font-size: 10pt;">Добро пожаловать, @User.Identity.Name!</p>
+                }
+                else if (userRole == "owner")
+                {
+                    @foreach (var item in listMenu.OwnerHeaderMenu)
+                    {
+                        <li class="headerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                    <p style="font-size: 10pt;">Добро пожаловать, @User.Identity.Name!</p>
+                }
+            </ul>
+        </nav>
+    </div>
+</header>

@@ -1,20 +1,30 @@
-﻿@model List<electronic_equipment_store.Models.Product>
+﻿<main>
+    <div class="container">
+        <h2>Добро пожаловать в наш магазин!</h2>
+        <p>Исследуйте наши последние электронные товары. Мы предлагаем широкий ассортимент электроники по доступным ценам.</p>
 
-    <h2>Список продуктов</h2>
+        <h2>Наши новинки</h2>
+        <div class="product">
+            <h4>Смартфон XYZ</h4>
+            <p>Самый последний смартфон от ведущего производителя. Новейшие функции и технологии ждут вас!</p>
+            <button>Купить</button>
+        </div>
+        <div class="product">
+            <h4>Ноутбук ABC</h4>
+            <p>Мощный ноутбук с высокой производительностью и стильным дизайном. Отличный выбор для работы и развлечений!</p>
+            <button>Купить</button>
+        </div>
 
-    <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
-                        <p class="card-text">Цена: @product.Price</p>
-                        <a href="@Url.Action("Details", "Home", new { id = product.Id })" class="btn btn-primary">Подробнее</a>
-                    </div>
-                </div>
-            </div>
-        }
+        <h2>Специальные предложения</h2>
+        <div class="product">
+            <h4>Наушники DEF</h4>
+            <p>Отличные наушники с высоким качеством звука и комфортной посадкой. Специальная цена только сегодня!</p>
+            <button>Купить</button>
+        </div>
+        <div class="product">
+            <h4>Планшет GHI</h4>
+            <p>Легкий и удобный планшет с ярким экраном и долгим временем работы от батареи. Успейте купить по выгодной цене!</p>
+            <button>Купить</button>
+        </div>
     </div>
+</main>

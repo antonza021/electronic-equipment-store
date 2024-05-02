@@ -1,0 +1,14 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Reviews>
+
+<main>
+    <h1>Отзывы</h1>
+    @foreach (var rev in Model)
+    {
+        <div class="review-card">
+            <p>Продукция: @rev.product_id</p>
+            <p>Пользователь: @rev.customer_id</p>
+            <p>Комментарий:@rev.review_text</p>
+            <p>Оценка: @rev.rating</p>
+        </div>
+    }
+</main>

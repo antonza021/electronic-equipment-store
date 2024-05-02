@@ -1,0 +1,40 @@
+﻿@{
+    var listMenu = new electronic_equipment_store.Models.MenuModel.ListMenu();
+    string userRole = ViewBag.UserRole;
+}
+<footer>
+    <div>
+        <nav>
+            <ul>
+                @if (User.Identity!.IsAuthenticated == false)
+                {
+                    @foreach (var item in listMenu.GuestFooterMenu)
+                    {
+                        <li class="footerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                }
+                else if (userRole == "user")
+                {
+                    @foreach (var item in listMenu.UserFooterMenu)
+                    {
+                        <li class="footerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                }
+                else if (userRole == "admin")
+                {
+                    @foreach (var item in listMenu.AdminFooterMenu)
+                    {
+                        <li class="footerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                }
+                else if (userRole == "owner")
+                {
+                    @foreach (var item in listMenu.OwnerFooterMenu)
+                    {
+                        <li class="footerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                }
+            </ul>
+        </nav>
+    </div>
+</footer>

@@ -1,0 +1,47 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Products>
+
+<main>
+    <h1 style="margin-left:20px;">Наш ассортимент продуктов</h1>
+    <div class="products-container">
+        @foreach (var product in Model)
+        {
+            <div class="product-card">
+                <div class="product-details">
+                    <h2>@product.product_name</h2>
+                    <p class="product-description">@product.description</p>
+                    <p class="product-price">@product.price</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+        }
+    </div>
+    @using (Html.BeginForm("AddProducts", "Home", FormMethod.Post))
+    {
+        <h3 style="text-align:center; margin:0;">Добавить Продукт</h3>
+        <div>
+            <label for="title">Название:</label>
+            @Html.TextBox("Title", null, new { @class = "form-control", required = "required", rows = "4" })
+        </div>
+        <div>
+            <label for="description">Описание:</label>
+            @Html.TextBox("desc", null, new { @class = "form-control", required = "required", rows = "4" })
+        </div>
+        <div>
+            <label for="type">Тип продукта:</label>
+            @Html.DropDownList("type", (IEnumerable<SelectListItem>)ViewBag.TypeList, new { @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="manifacturers">Произовдитель:</label>
+            @Html.DropDownList("manifacturers", (IEnumerable<SelectListItem>)ViewBag.ManifList, new { @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="price">Цена:</label>
+            @Html.TextBox("price", null, new { @class = "form-control", required = "required", type = "number"})
+        </div>
+        <div>
+            <label for="count">Кол-во:</label>
+            @Html.TextBox("price", null, new { @class = "form-control", required = "required", type = "number"})
+        </div>
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    }
+</main>

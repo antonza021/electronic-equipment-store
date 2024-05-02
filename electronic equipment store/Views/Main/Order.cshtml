@@ -1,0 +1,15 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Orders>
+
+<main>
+    <h1 style="text-align:center;">Ваша корзина</h1>
+    <ul>
+        @foreach (var order in Model)
+        {
+            <div class="manufacturer-card">
+            <p>Номер заказа: @order.order_id</p>
+            <p>Дата: @order.order_date</p>
+            <p>Цена: @order.total_amount</p>
+            </div>
+        }
+    </ul>
+</main>

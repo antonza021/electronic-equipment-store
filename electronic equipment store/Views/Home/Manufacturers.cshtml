@@ -1,0 +1,16 @@
+﻿@model List<electronic_equipment_store.Models.DBModels.Manufactures>
+
+<main>
+    <h1 style="margin-left:40px;">Производители с которыми мы сотрудничаем</h1>
+    @foreach (var manuf in Model)
+    {
+        <div class="manufacturer-card">
+            <div class="manufacturer-header">
+                <h2>@manuf.manufacturer_name</h2>
+            </div>
+            <div class="manufacturer-content">
+                <p>@manuf.description</p>
+            </div>
+        </div>
+    }
+</main>
