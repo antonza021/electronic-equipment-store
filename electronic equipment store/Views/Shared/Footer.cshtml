@@ -34,6 +34,13 @@
                         <li class="footerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
                     }
                 }
+                else if (userRole == "employee")
+                {
+                    @foreach (var item in listMenu.EmployeeFooterMenu)
+                    {
+                        <li class="footerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                }
             </ul>
         </nav>
     </div>

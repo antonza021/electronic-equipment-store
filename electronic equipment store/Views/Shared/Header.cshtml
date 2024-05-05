@@ -38,6 +38,14 @@
                     }
                     <p style="font-size: 10pt;">Добро пожаловать, @User.Identity.Name!</p>
                 }
+                else if (userRole == "employee")
+                {
+                    @foreach (var item in listMenu.EmployeeHeaderMenu)
+                    {
+                        <li class="headerli"><button class="btn btn-primary"><a class="aClass" href="@Url.Action(item.Action, item.Controller)">@item.Label</a></button></li>
+                    }
+                    <p style="font-size: 10pt;">Добро пожаловать, @User.Identity.Name!</p>
+                }
             </ul>
         </nav>
     </div>

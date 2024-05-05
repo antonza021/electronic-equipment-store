@@ -126,7 +126,7 @@ namespace electronic_equipment_store.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Users(IFormCollection form)
+        public ActionResult AddUser(IFormCollection form)
         {
             var model = new Users
             {
@@ -153,6 +153,61 @@ namespace electronic_equipment_store.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Users", "Main");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Произошла ошибка при удалении пользователя: " + ex.Message);
+                return RedirectToAction("AunthError", "Error");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditUser(Users user)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingUser = await _context.Users.FindAsync(user.customer_id);
+
+                    if (existingUser != null)
+                    {
+                        existingUser.customer_name = user.customer_name;
+                        existingUser.password = EncryptPassword(user.password);
+                        existingUser.email = user.email;
+                        existingUser.role = user.role;
+
+                        _context.Entry(existingUser).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Users", "Main");
+                    }
+                    else
+                    {
+                        return NotFound(); 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Произошла ошибка при редактировании пользователя: " + ex.Message);
+                    return RedirectToAction("AunthError", "Error");
+                }
+            }
+            return View(user);
+        }
+
         public async Task FindOrder()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

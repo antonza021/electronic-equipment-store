@@ -11,7 +11,7 @@
             <p>Адрес:@user.address</p>
         </div>
     }
-    @using (Html.BeginForm("Users", "Main", FormMethod.Post))
+    @using (Html.BeginForm("AddUser", "Main", FormMethod.Post))
     {
         <h1>Добавить пользователя</h1>
         <div>
@@ -33,6 +33,49 @@
         new SelectListItem { Text = "Пользователь", Value = "user" },
         new SelectListItem { Text = "Администратор", Value = "admin" },
         new SelectListItem { Text = "Владелец", Value = "owner" },
+        new SelectListItem { Text = "Сотрудник", Value = "employee" },
+        }, "Value", "Text"), "Выберите роль", new { @class = "form-control", required = "required" })
+        </div>
+
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    }
+    @using (Html.BeginForm("DeleteUser", "Main", FormMethod.Post))
+    {
+        <h1>Удалить пользователя</h1>
+        <div>
+            <label for="userId">Id пользователя:</label>
+            @Html.TextBox("userId", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+
+        <button class="btn btn-danger" type="submit">Удалить</button>
+    }
+    @using (Html.BeginForm("EditUser", "Main", FormMethod.Post))
+    {
+        <h1>Редактировать пользователя</h1>
+        <div>
+            <label for="editlogin">Логин:</label>
+            @Html.TextBox("customer_id", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="editlogin">Логин:</label>
+            @Html.TextBox("customer_name", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+
+        <div>
+            <label for="editpassword">Пароль:</label>
+            @Html.Password("password", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="editemail">Email:</label>
+            @Html.Password("email", null, new { @style = "height: 30px", @class = "form-control", required = "required" })
+        </div>
+        <div>
+            <label for="editrole">Роль:</label>
+            @Html.DropDownList("role", new SelectList(new[] {
+        new SelectListItem { Text = "Пользователь", Value = "user" },
+        new SelectListItem { Text = "Администратор", Value = "admin" },
+        new SelectListItem { Text = "Владелец", Value = "owner" },
+        new SelectListItem { Text = "Сотрудник", Value = "employee" },
         }, "Value", "Text"), "Выберите роль", new { @class = "form-control", required = "required" })
         </div>
 

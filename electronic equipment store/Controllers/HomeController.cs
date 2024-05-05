@@ -58,7 +58,7 @@ namespace electronic_equipment_store.Controllers
                 {
                     return View(prod);
                 }
-                else if (userRole != null && userRole == "admin")
+                else if (userRole != null && userRole == "admin" || userRole == "employee")
                 {
                     var TypeList = _context.Categories.Select(c => new SelectListItem
                     {
@@ -74,6 +74,13 @@ namespace electronic_equipment_store.Controllers
                     }).ToList();
                     ManifList.Insert(0, new SelectListItem { Text = "Выберите комплектующее", Value = "" });
                     ViewBag.ManifList = ManifList;
+                    var prodlistt = _context.Products.Select(c => new SelectListItem
+                    {
+                        Text = $"{c.product_name}",
+                        Value = c.product_id.ToString()
+                    }).ToList();
+                    prodlistt.Insert(0, new SelectListItem { Text = "Выберите комплектующее", Value = "" });
+                    ViewBag.DeleteCompList = prodlistt;
                     return View("AddProducts", prod);
                 }
             }
@@ -124,6 +131,7 @@ namespace electronic_equipment_store.Controllers
             }
             return RedirectToAction("AunthError", "Error");
         }
+      
         [HttpPost]
         public ActionResult AddProducts(IFormCollection form)
         {
@@ -132,9 +140,10 @@ namespace electronic_equipment_store.Controllers
             {
                 product_name = form["Title"],
                 description = form["desc"],
-                price = Convert.ToDecimal(form["duration"]),
+                price = Convert.ToDecimal(form["price"]),
                 category_id = Convert.ToInt32(form["type"]),
                 manufacturer_id = Convert.ToInt32(form["manifacturers"]),
+                stock_quantity = Convert.ToInt32(form["count"]),
             };
 
             if (ModelState.IsValid)
@@ -153,6 +162,61 @@ namespace electronic_equipment_store.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> DeleteProduct(int idprod)
+        {
+            var prod = await _context.Products.FindAsync(idprod);
+            if (prod == null)
+            {
+                return View("AunthError");
+            }
+
+            try
+            {
+                _context.Products.Remove(prod);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Products", "Home");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Произошла ошибка при удалении пользователя: " + ex.Message);
+                return RedirectToAction("AunthError", "Error");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProducts(Products prod)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingProd = await _context.Products.FindAsync(prod.product_id);
+
+                    if (existingProd != null)
+                    {
+                        existingProd.product_name = prod.product_name;
+                        existingProd.price = prod.price;
+                        existingProd.description = prod.description;
+                        existingProd.category_id = prod.category_id;
+                        existingProd.manufacturer_id = prod.manufacturer_id;
+                        existingProd.stock_quantity = prod.stock_quantity;
+
+                        _context.Entry(existingProd).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Products", "Home");
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Произошла ошибка при редактировании пользователя: " + ex.Message);
+                    return RedirectToAction("AunthError", "Error");
+                }
+            }
+            return View(prod);
+        }
         public async Task<IActionResult> Promotions()
         {
             CheckRole();
@@ -164,11 +228,18 @@ namespace electronic_equipment_store.Controllers
                   .Where(a => a.customer_id.ToString() == userId)
                   .Select(a => a.role)
                   .FirstOrDefaultAsync();
+                var promlist = _context.Promotions.Select(c => new SelectListItem
+                {
+                    Text = $"{c.promotion_name}",
+                    Value = c.promotion_id.ToString()
+                }).ToList();
+                promlist.Insert(0, new SelectListItem { Text = "Выберите праздник", Value = "" });
+                ViewBag.DeletePromList = promlist;
                 if (userRole != null && userRole == "user")
                 {
                     return View(prom);
                 }
-                else if (userRole != null && userRole == "admin")
+                else if (userRole != null && userRole == "admin" || userRole == "employee")
                 {
                     return View("AddPromotions", prom);
                 }
@@ -203,6 +274,27 @@ namespace electronic_equipment_store.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> DeletePromotions(int idprom)
+        {
+            var prom = await _context.Promotions.FindAsync(idprom);
+            if (prom == null)
+            {
+                return View("AunthError");
+            }
+
+            try
+            {
+                _context.Promotions.Remove(prom);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Promotions", "Home");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Произошла ошибка при удалении пользователя: " + ex.Message);
+                return RedirectToAction("AunthError", "Error");
+            }
+        }
         public async Task<IActionResult> Manufacturers()
         {
             CheckRole();
@@ -212,11 +304,18 @@ namespace electronic_equipment_store.Controllers
               .Where(a => a.customer_id.ToString() == userId)
               .Select(a => a.role)
               .FirstOrDefaultAsync();
+            var manuflist = _context.Manufacturers.Select(c => new SelectListItem
+            {
+                Text = $"{c.manufacturer_name}",
+                Value = c.manufacturer_id.ToString()
+            }).ToList();
+            manuflist.Insert(0, new SelectListItem { Text = "Выберите произовдителя", Value = "" });
+            ViewBag.DeleteManufList = manuflist;
             if (userRole != null && userRole == "user")
             {
                 return View(manuf);
             }
-            else if (userRole != null && userRole == "admin")
+            else if (userRole != null && userRole == "admin" || userRole == "employee")
             {
                 return View("AddManufacturers", manuf);
             }
@@ -247,6 +346,27 @@ namespace electronic_equipment_store.Controllers
                 }
             }
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteManufacturers(int idmanuf)
+        {
+            var manuf = await _context.Manufacturers.FindAsync(idmanuf);
+            if (manuf == null)
+            {
+                return View("AunthError");
+            }
+
+            try
+            {
+                _context.Manufacturers.Remove(manuf);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Manufacturers", "Home");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Произошла ошибка при удалении пользователя: " + ex.Message);
+                return RedirectToAction("AunthError", "Error");
+            }
         }
         public async Task<IActionResult> Payments()
         {

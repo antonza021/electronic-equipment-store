@@ -19,6 +19,14 @@
             new ItemMenu("Home", "Manufacturers", "Производители"),
             new ItemMenu("Authentication", "Exit", "Выйти"),
         };
+        public List<ItemMenu> EmployeeHeaderMenu = new List<ItemMenu>()
+        {
+            new ItemMenu("Home","Index","Electronic store"),
+            new ItemMenu("Home","Products", "Каталог"),
+            new ItemMenu("Home", "Promotions", "Акции"),
+            new ItemMenu("Home", "Manufacturers", "Производители"),
+            new ItemMenu("Authentication", "Exit", "Выйти"),
+        };
         public List<ItemMenu> GuestHeaderMenu = new List<ItemMenu>()
         {
             new ItemMenu("Home","Index","Electronic store"),
@@ -36,6 +44,11 @@
             new ItemMenu("Authentication", "Exit", "Выйти"),
         };
         public List<ItemMenu> GuestFooterMenu = new List<ItemMenu>()
+        {
+            new ItemMenu("Main","Index","О нас"),
+            new ItemMenu("Main", "Reviews", "Отзывы"),
+        };
+        public List<ItemMenu> EmployeeFooterMenu = new List<ItemMenu>()
         {
             new ItemMenu("Main","Index","О нас"),
             new ItemMenu("Main", "Reviews", "Отзывы"),
